@@ -7,21 +7,21 @@ For sinusoidal signals, the frequency band of the signal is one of these fundame
 This work proposes a fully automated method for easily, quickly, and stably estimating the frequency band of low-pass signals. The estimation is based on the discrete Fourier transform and threshold detection. Due to the complete automation, special attention is paid to the method's stability.
 The performance of the method is tested here using synthetic and natural signals. The preliminary results show that the automated estimation and visual detection deliver comparable results for the upper frequency band limit.
 
-[!INFO]
-The entire content of this script collection was conceived, implemented and tested by Jakob Harden using the scientific numerical programming language of GNU Octave 6.2.0.
+> [!INFO]
+> The entire content of this script collection was conceived, implemented and tested by Jakob Harden using > the scientific numerical programming language of GNU Octave 6.2.0.
 
 
 ## Table of contents
 
-- License
-- Prerequisites
-- Directory and file structure
-- Installation instructions
-- Usage instructions
-- Help and Documentation
-- Related data sources
-- Related software
-- Revision and release history
+- [Licence](#licence)
+- [Prerequisites](#prerequisites)
+- [Directory and file structure](#directory-and-file-structure)
+- [Installation instructions](#installation-instructions)
+- [Usage instructions](#usage-instructions)
+- [Help and Documentation](#help-and-documentation)
+- [Related data sources](#related-data-sources)
+- [Related software](#related-software)
+- [Revision and release history](#revision-and-release-history)
 
 
 ## Licence
@@ -75,25 +75,26 @@ fqband/
 ├── README.html   
 └── README.md   
 ```
+
 - **fqband** ... main program directory
-  - LICENSE ... AGPLv3 licence information
+  - LICENSE ... AGPLv3 licence information file
   - README.md ... this file, information about the program
   - README.html ... html version of this file
-- **fqband/latex/test\_fqband** ... LaTeX documents, presentation slides (CC BY-4.0)
-  - adaptthemePresRIP.tex ... LaTeX beamer class configuration
-  - biblio.bib ... bibliography
-  - main.tex ... main document, presentation source code
-- **fqband/published** ... published documents, archives (AGPLv3, CC BY-4.0)
-- **fqband/octave** ... GNU Octave script files and analysis results (AGPLv3)
-  - dsdefs.m ... dataset definitions, natural signals (ultrasonic pulse transmission tests)
-  - init.m ... initialization script, load packages, add subdirectories to path environment variable
-  - test_fqband.m ... main script file, frequency band analsis tests
-- **fqband/octave/tools** ... tool scripts (AGPLv3)
-  - tool\_est\_dft\_fqband.m ... frequency band estimation for low-pass signals
-  - tool\_est\_dft.m ... discrete Fourier transformation, PSD
-  - tool\_gen\_noise.m ... generate standard noise data for reproducible analysis results
-  - tool\_scale\_noise2snr.m ... scale noise data w.r.t. signal power and signal-to-noise ratio
-- **fqband/octave/results/test\_fqband** ... analysis results (CC BY-4.0)
+- **fqband/latex/test\_fqband** ... directory, LaTeX documents, presentation slides (CC BY-4.0)
+  - adaptthemePresRIP.tex ... file, LaTeX beamer class configuration
+  - biblio.bib ... file, bibliography
+  - main.tex ... file, main LaTeX document, presentation source code
+- **fqband/published** ... directory, published documents, archives (AGPLv3, CC BY-4.0)
+- **fqband/octave** ... directory, GNU Octave script files and analysis results (AGPLv3)
+  - dsdefs.m ... function file, dataset definitions, natural signals (ultrasonic pulse transmission tests)
+  - init.m ... function file, initialization script, load packages, add subdirectories to path environment variable
+  - test_fqband.m ... function file, main script, frequency band analsis tests
+- **fqband/octave/tools** ... directory, tool scripts (AGPLv3)
+  - tool\_est\_dft\_fqband.m ... function file, frequency band estimation for low-pass signals
+  - tool\_est\_dft.m ... function file, discrete Fourier transformation, PSD
+  - tool\_gen\_noise.m ... function file, generate standard noise data for reproducible analysis results
+  - tool\_scale\_noise2snr.m ... function file, scale noise data w.r.t. signal power and signal-to-noise ratio
+- **fqband/octave/results/test\_fqband** ... directory, analysis results (CC BY-4.0)
 
 
 ## Installation instructions
@@ -106,7 +107,7 @@ fqband/
 
 ## Usage instructions
 
-1. Set dataset path variable *r_ds.dspath* in function file *dsdefs.m* to data directory. e.g. r_ds.dspath = **/home/acme/science/data**;   
+1. Set dataset path variable *r_ds.dspath* in function file *dsdefs.m* to data directory. e.g. r_ds.dspath = '/home/acme/science/data';   
 2. Open GNU Octave.   
 3. Initialize program.   
 4. Run script files.   
@@ -131,8 +132,8 @@ The *init* command initializes the program. The initialization must be run once 
     octave: >> test_fqband('pow'); # DFT-based signal power estimation   
 ```
 
-[!NOTE]
-To reproduce all analysis results shown in the presentation in **../latex/test_fqband**, run the the first four commands from above.
+> [!NOTE]
+> To reproduce all analysis results shown in the presentation in **fqband/latex/test_fqband**, run the the first four commands from above.
 
 
 ## Help and Documentation
@@ -167,8 +168,8 @@ The referenced datasets are compiled from raw data using a dataset compilation t
 
 - Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Data set compiler (1.1)". Graz University of Technology. [doi: 10.3217/6qg3m-af058](https://doi.org/10.3217/6qg3m-af058)
 
-[!NOTE]
-*Dataset Compiler* is also available on **github**. [Dataset Compiler](https://github.com/jakobharden/phd_dataset_compiler)
+> [!NOTE]
+> *Dataset Compiler* is also available on **github**. [Dataset Compiler](https://github.com/jakobharden/phd_dataset_compiler)
 
 
 ### Dataset Exporter, version 1.0:
@@ -177,8 +178,8 @@ The referenced datasets are compiled from raw data using a dataset compilation t
 
 - Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Exporter (1.0)". Graz University of Technology. [doi: 10.3217/9adsn-8dv64](https://doi.org/10.3217/9adsn-8dv64)
 
-[!NOTE]
-*Dataset Exporter* is also available on **github**. [Dataset Exporter](https://github.com/jakobharden/phd_dataset_exporter)
+> [!NOTE]
+> *Dataset Exporter* is also available on **github**. [Dataset Exporter](https://github.com/jakobharden/phd_dataset_exporter)
 
 
 ### Dataset Viewer, version 1.0:
@@ -187,8 +188,8 @@ The referenced datasets are compiled from raw data using a dataset compilation t
 
 - Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Viewer (1.0)". Graz University of Technology. [doi: 10.3217/c1ccn-8m982](https://doi.org/10.3217/c1ccn-8m982)
 
-[!NOTE]
-*Dataset Viewer* is also available on **github**. [Dataset Viewer](https://github.com/jakobharden/phd_dataset_viewer)
+> [!NOTE]
+> *Dataset Viewer* is also available on **github**. [Dataset Viewer](https://github.com/jakobharden/phd_dataset_viewer)
 
 
 ## Revision and release history

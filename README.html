@@ -7,21 +7,23 @@ For sinusoidal signals, the frequency band of the signal is one of these fundame
 This work proposes a fully automated method for easily, quickly, and stably estimating the frequency band of low-pass signals. The estimation is based on the discrete Fourier transform and threshold detection. Due to the complete automation, special attention is paid to the method's stability.
 The performance of the method is tested here using synthetic and natural signals. The preliminary results show that the automated estimation and visual detection deliver comparable results for the upper frequency band limit.</p>
 
-<p>[!INFO]
-The entire content of this script collection was conceived, implemented and tested by Jakob Harden using the scientific numerical programming language of GNU Octave 6.2.0.</p>
+<blockquote>
+  <p>[!INFO]
+The entire content of this script collection was conceived, implemented and tested by Jakob Harden using > the scientific numerical programming language of GNU Octave 6.2.0.</p>
+</blockquote>
 
 <h2>Table of contents</h2>
 
 <ul>
-<li>License</li>
-<li>Prerequisites</li>
-<li>Directory and file structure</li>
-<li>Installation instructions</li>
-<li>Usage instructions</li>
-<li>Help</li>
-<li>Related data sources</li>
-<li>Related software</li>
-<li>Revision and release history</li>
+<li><a href="#licence">Licence</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#directory-and-file-structure">Directory and file structure</a></li>
+<li><a href="#installation-instructions">Installation instructions</a></li>
+<li><a href="#usage-instructions">Usage instructions</a></li>
+<li><a href="#help-and-documentation">Help and Documentation</a></li>
+<li><a href="#related-data-sources">Related data sources</a></li>
+<li><a href="#related-software">Related software</a></li>
+<li><a href="#revision-and-release-history">Revision and release history</a></li>
 </ul>
 
 <h2>Licence</h2>
@@ -71,26 +73,37 @@ fqband/ <br />
 ├── published <br />
 ├── README.html <br />
 └── README.md
-</code>
-- <strong>fqband</strong> ... main program directory
-  - LICENSE ... AGPLv3 licence information
-  - README.md ... this file, information about the program
-  - README.html ... html version of this file
-- <strong>fqband/latex/test_fqband</strong> ... LaTeX documents, presentation slides (CC BY-4.0)
-  - adaptthemePresRIP.tex ... LaTeX beamer class configuration
-  - biblio.bib ... bibliography
-  - main.tex ... main document, presentation source code
-- <strong>fqband/published</strong> ... published documents, archives (AGPLv3, CC BY-4.0)
-- <strong>fqband/octave</strong> ... GNU Octave script files and analysis results (AGPLv3)
-  - dsdefs.m ... dataset definitions, natural signals (ultrasonic pulse transmission tests)
-  - init.m ... initialization script, load packages, add subdirectories to path environment variable
-  - test_fqband.m ... main script file, frequency band analsis tests
-- <strong>fqband/octave/tools</strong> ... tool scripts (AGPLv3)
-  - tool_est_dft_fqband.m ... frequency band estimation for low-pass signals
-  - tool_est_dft.m ... discrete Fourier transformation, PSD
-  - tool_gen_noise.m ... generate standard noise data for reproducible analysis results
-  - tool_scale_noise2snr.m ... scale noise data w.r.t. signal power and signal-to-noise ratio
-- <strong>fqband/octave/results/test_fqband</strong> ... analysis results (CC BY-4.0)</p>
+</code></p>
+
+<ul>
+<li><strong>fqband</strong> ... main program directory
+<ul>
+<li>LICENSE ... AGPLv3 licence information file</li>
+<li>README.md ... this file, information about the script collection</li>
+<li>README.html ... html version of this file</li>
+</ul></li>
+<li><strong>fqband/latex/test_fqband</strong> ... directory, LaTeX documents, presentation slides (CC BY-4.0)
+<ul>
+<li>adaptthemePresRIP.tex ... file, LaTeX beamer class configuration</li>
+<li>biblio.bib ... file, bibliography</li>
+<li>main.tex ... file, main LaTeX document, presentation source code</li>
+</ul></li>
+<li><strong>fqband/published</strong> ... directory, published documents, archives (AGPLv3, CC BY-4.0)</li>
+<li><strong>fqband/octave</strong> ... directory, GNU Octave script files and analysis results (AGPLv3)
+<ul>
+<li>dsdefs.m ... function file, dataset definitions, natural signals (ultrasonic pulse transmission tests)</li>
+<li>init.m ... function file, initialization script, load packages, add subdirectories to path environment variable</li>
+<li>test_fqband.m ... function file, main script, frequency band analsis tests</li>
+</ul></li>
+<li><strong>fqband/octave/tools</strong> ... directory, tool scripts (AGPLv3)
+<ul>
+<li>tool_est_dft_fqband.m ... function file, frequency band estimation for low-pass signals</li>
+<li>tool_est_dft.m ... function file, discrete Fourier transformation, PSD</li>
+<li>tool_gen_noise.m ... function file, generate standard noise data for reproducible analysis results</li>
+<li>tool_scale_noise2snr.m ... function file, scale noise data w.r.t. signal power and signal-to-noise ratio</li>
+</ul></li>
+<li><strong>fqband/octave/results/test_fqband</strong> ... directory, analysis results (CC BY-4.0)</li>
+</ul>
 
 <h2>Installation instructions</h2>
 
@@ -104,7 +117,7 @@ fqband/ <br />
 <h2>Usage instructions</h2>
 
 <ol>
-<li>Set dataset path variable <em>r_ds.dspath</em> in function file <em>dsdefs.m</em> to data directory. e.g. r_ds.dspath = <strong>/home/acme/science/data</strong>;   </li>
+<li>Set dataset path variable <em>r_ds.dspath</em> in function file <em>dsdefs.m</em> to data directory. e.g. r_ds.dspath = '/home/acme/science/data';   </li>
 <li>Open GNU Octave.   </li>
 <li>Initialize program.   </li>
 <li>Run script files.   </li>
@@ -128,10 +141,12 @@ fqband/ <br />
     octave: &gt;&gt; test_fqband('pow'); # DFT-based signal power estimation
 </code></p>
 
-<p>[!NOTE]
-To reproduce all analysis results shown in the presentation in <strong>../latex/test_fqband</strong>, run the the first four commands from above.</p>
+<blockquote>
+  <p>[!NOTE]
+To reproduce all analysis results shown in the presentation in <strong>fqband/latex/test_fqband</strong>, run the the first four commands from above.</p>
+</blockquote>
 
-<h2>Help</h2>
+<h2>Help and Documentation</h2>
 
 <p>All function files contain an adequate function description and instructions on how to use the functions. This documentation can be displayed in the GNU Octave command line interface by entering the following command:</p>
 
@@ -164,8 +179,10 @@ To reproduce all analysis results shown in the presentation in <strong>../latex/
 <li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Data set compiler (1.1)". Graz University of Technology. <a href="https://doi.org/10.3217/6qg3m-af058">doi: 10.3217/6qg3m-af058</a></li>
 </ul>
 
-<p>[!NOTE]
+<blockquote>
+  <p>[!NOTE]
 <em>Dataset Compiler</em> is also available on <strong>github</strong>. <a href="https://github.com/jakobharden/phd_dataset_compiler">Dataset Compiler</a></p>
+</blockquote>
 
 <h3>Dataset Exporter, version 1.0:</h3>
 
@@ -175,8 +192,10 @@ To reproduce all analysis results shown in the presentation in <strong>../latex/
 <li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Exporter (1.0)". Graz University of Technology. <a href="https://doi.org/10.3217/9adsn-8dv64">doi: 10.3217/9adsn-8dv64</a></li>
 </ul>
 
-<p>[!NOTE]
+<blockquote>
+  <p>[!NOTE]
 <em>Dataset Exporter</em> is also available on <strong>github</strong>. <a href="https://github.com/jakobharden/phd_dataset_exporter">Dataset Exporter</a></p>
+</blockquote>
 
 <h3>Dataset Viewer, version 1.0:</h3>
 
@@ -186,8 +205,10 @@ To reproduce all analysis results shown in the presentation in <strong>../latex/
 <li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Viewer (1.0)". Graz University of Technology. <a href="https://doi.org/10.3217/c1ccn-8m982">doi: 10.3217/c1ccn-8m982</a></li>
 </ul>
 
-<p>[!NOTE]
+<blockquote>
+  <p>[!NOTE]
 <em>Dataset Viewer</em> is also available on <strong>github</strong>. <a href="https://github.com/jakobharden/phd_dataset_viewer">Dataset Viewer</a></p>
+</blockquote>
 
 <h2>Revision and release history</h2>
 
