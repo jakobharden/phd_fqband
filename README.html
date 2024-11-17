@@ -1,0 +1,184 @@
+<h1>Frequency band estimation for sinusoidal low-pass signals in noise</h1>
+
+<h2>Abstract</h2>
+
+<p>Classic signal analysis usually begins with collecting information about the properties of the signal to the greatest extent possible. This information is the basis for the sensible selection of analysis methods and their parameterization.
+For sinusoidal signals, the frequency band of the signal is one of these fundamental signal properties. Estimating the frequency band can be a challenge, especially for signals with a small signal-to-noise ratio.
+This work proposes a fully automated method for easily, quickly, and stably estimating the frequency band of low-pass signals. The estimation is based on the discrete Fourier transform and threshold detection. Due to the complete automation, special attention is paid to the method's stability.
+The performance of the method is tested here using synthetic and natural signals. The preliminary results show that the automated estimation and visual detection deliver comparable results for the upper frequency band limit.</p>
+
+<h2>Table of contents</h2>
+
+<ul>
+<li>License</li>
+<li>Prerequisites</li>
+<li>Directory and file structure</li>
+<li>Installation instructions</li>
+<li>Usage instructions</li>
+<li>Help</li>
+<li>Related data sources</li>
+<li>Related software</li>
+<li>Revision and release history</li>
+</ul>
+
+<h2>Licence</h2>
+
+<p>Copyright 2024 Jakob Harden (jakob.harden@tugraz.at, Graz University of Technology, Graz, Austria)</p>
+
+<p>This file is part of the PhD thesis of Jakob Harden.</p>
+
+<p>All GNU Octave function files (<em>.m) are published under the *GNU Affero General Public Licence v3.0</em>. See also licence information file "LICENSE".</p>
+
+<p>All other files are published under the <em>Creative Commons Attribution 4.0</em> licence. See also licence information: <a href="https://creativecommons.org/licenses/by/4.0/deed.en">Licence deed</a></p>
+
+<h2>Prerequisites</h2>
+
+<p>To be able to use the scripts, GNU Octave 6.2.0 (or a higher version) need to to be installed.
+GNU Octave is available via the package management system on many Linux distributions. Windows users have to download the Windows version of GNU Octave and to install the software manually.</p>
+
+<p><a href="https://octave.org/download">GNU Octave download</a></p>
+
+<p>To compile the LaTeX documents in this repository a TeXlive installation is required. The TeXlive package is available via the package management system on many Linux distributions. Windows users have to download the Windows version of TeXlive and to install the software manually.</p>
+
+<p><a href="https://www.tug.org/texlive/windows.html">TeXlive download</a></p>
+
+<h2>Directory and file structure</h2>
+
+<p>All GNU Octave script files (*.m) are UTF-8 encoded plain text files written in the scientific programming language of GNU Octave 6.2.0. All LaTeX files (*.tex) are UTF-8 encoded plain text files.</p>
+
+<p><code>
+fqband/ <br />
+├── latex <br />
+│   └── test_fqband <br />
+│       ├── adaptthemePresRIP.tex <br />
+│       ├── biblio.bib <br />
+│       └── main.tex <br />
+├── LICENSE <br />
+├── octave <br />
+│   ├── dsdefs.m <br />
+│   ├── init.m <br />
+│   ├── results <br />
+│   │   └── test_fqband <br />
+│   ├── test_fqband.m <br />
+│   └── tools <br />
+│       ├── tool_est_dft_fqband.m <br />
+│       ├── tool_est_dft.m <br />
+│       ├── tool_gen_noise.m <br />
+│       └── tool_scale_noise2snr.m <br />
+├── published <br />
+└── README.md
+</code></p>
+
+<ul>
+<li><strong>fqband/latex/test_fqband</strong> ... LaTeX documents, presentation slides (CC BY-4.0)
+<ul>
+<li>adaptthemePresRIP.tex ... LaTeX beamer class configuration</li>
+<li>biblio.bib ... bibliography</li>
+<li>main.tex ... main document, presentation source code</li>
+</ul></li>
+<li><strong>fqband/published</strong> ... published documents, archives</li>
+<li><strong>fqband/octave</strong> ... GNU Octave script files and analysis results
+<ul>
+<li>dsdefs.m ... dataset definitions, natural signals (ultrasonic pulse transmission tests)</li>
+<li>init.m ... initialization script, load packages, add subdirectories to path environment variable</li>
+<li>test_fqband.m ... main script file, frequency band analsis tests</li>
+</ul></li>
+<li><strong>fqband/octave/tools</strong> ... tool scripts (AGPLv3)
+<ul>
+<li>tool_est_dft_fqband.m ... frequency band estimation for low-pass signals</li>
+<li>tool_est_dft.m ... discrete Fourier transformation, PSD</li>
+<li>tool_gen_noise.m ... generate standard noise data for reproducible analysis results</li>
+<li>tool_scale_noise2snr.m ... scale noise data w.r.t. signal power and signal-to-noise ratio</li>
+</ul></li>
+<li><strong>fqband/octave/results/test_fqband</strong> ... analysis results (CC BY-4.0)</li>
+</ul>
+
+<h2>Installation instructions</h2>
+
+<ol>
+<li>Download datasets (see references below) and move them to a directory of your choice. e.g. <strong>/home/acme/science/data</strong></li>
+<li>Copy the program directory <strong>fqband</strong> to a location of your choice. e.g. <strong>/home/acme/science/fqband</strong>.   </li>
+<li>Open GNU Octave.   </li>
+<li>Make the program directory the working directory. e.g. <strong>/home/acme/science/fqband</strong>.   </li>
+</ol>
+
+<h2>Usage instructions</h2>
+
+<ol>
+<li>Set dataset path variable <em>r_ds.dspath</em> in function file <em>dsdefs.m</em> to data directory. e.g. r_ds.dspath = <strong>/home/acme/science/data</strong>;   </li>
+<li>Open GNU Octave.   </li>
+<li>Initialize program.   </li>
+<li>Run script files.   </li>
+</ol>
+
+<h3>Initialize program (command line interface)</h3>
+
+<p>The <em>init</em> command initializes the program. The initialization must be run once before executing all the other functions. The command is adding the subdirectories included in the main program directory to the 'path' environment variable. Furthermore, <em>init</em> is loading additional GNU Octave packages require for the program execution.</p>
+
+<p><code>
+    octave: &gt;&gt; init;
+</code></p>
+
+<h3>Execute function file (command line interface)</h3>
+
+<p><code>
+    octave: &gt;&gt; test_fqband('sig'); # plot synthetic test signals <br />
+    octave: &gt;&gt; test_fqband('syn'); # analyse/plot synthetic signals <br />
+    octave: &gt;&gt; test_fqband('nat'); # analyse/plot selected natural signals <br />
+    octave: &gt;&gt; test_fqband('ts'); # analyse/plot test-series datasets <br />
+    octave: &gt;&gt; test_fqband('pow'); # DFT-based signal power estimation
+</code></p>
+
+<p>[!NOTE]
+To reproduce all analysis results shown in the presentation in <strong>../latex/test_fqband</strong>, run the the first four commands from above.</p>
+
+<h2>Help</h2>
+
+<p>All function files contain an adequate function description and instructions on how to use the functions. This documentation can be displayed in the GNU Octave command line interface by entering the following command:</p>
+
+<p><code>
+    octave: &gt;&gt; help function_file_name;
+</code></p>
+
+<h2>Related data sources</h2>
+
+<p>Datasets whos content can be analyzed and plotted with this scripts are made available at the repository of Graz University of Technology under an open license (Creative Commons, CC BY 4.0). The data records enlisted below contain the raw data, the compiled datasets and a technical description of the record content.</p>
+
+<h3>Data records</h3>
+
+<ul>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 1, Cement Paste at Early Stages". Graz University of Technology. <a href="https://doi.org/10.3217/bhs4g-m3z76">doi: 10.3217/bhs4g-m3z76</a>   </li>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 3, Reference Tests on Air". Graz University of Technology. <a href="https://doi.org/10.3217/ph0jm-8ax76">doi: 10.3217/ph0jm-8ax76</a>   </li>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 4, Cement Paste at Early Stages". Graz University of Technology. <a href="https://doi.org/10.3217/f62md-kep36">doi: 10.3217/f62md-kep36</a>   </li>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 5, Reference Tests on Air". Graz University of Technology. <a href="https://doi.org/10.3217/bjkrj-pg829">doi: 10.3217/bjkrj-pg829</a>   </li>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 6, Reference Tests on Water". Graz University of Technology. <a href="https://doi.org/10.3217/hn7we-q7z09">doi: 10.3217/hn7we-q7z09</a>   </li>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Datasets - Test Series 7, Reference Tests on Aluminium Cylinder". Graz University of Technology. <a href="https://doi.org/10.3217/azh6e-rvy75">doi: 10.3217/azh6e-rvy75</a>   </li>
+</ul>
+
+<h2>Related software</h2>
+
+<p>The referenced datasets are compiled from raw data using a dataset compilation tool implemented in the programming language of GNU Octave 6.2.0 ("Dataset Compiler, version 1.1") . To understand the structure of the datasets, it is a good idea to look at the soure code of that tool. Therefore, it was made publicly available under the MIT license at the repository of Graz University of Technology.</p>
+
+<p>Another tool, implemented in the programming language of GNU Octave 6.2.0, allows for exporting data contained in the datasets ("Dataset Exporter, version 1.0"). The main features of that script collection cover the export of substructures to variables and the serialization to the CSV format, the JSON structure format and TeX code. It is also made publicly available under the MIT licence at the repository of Graz University of Technology.</p>
+
+<h3>Dataset Compiler, version 1.1:</h3>
+
+<ul>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Data set compiler (1.1)". Graz University of Technology. <a href="https://doi.org/10.3217/6qg3m-af058">doi: 10.3217/6qg3m-af058</a></li>
+</ul>
+
+<h3>Dataset Exporter, version 1.0:</h3>
+
+<ul>
+<li>Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Exporter (1.0)". Graz University of Technology. <a href="https://doi.org/10.3217/9adsn-8dv64">doi: 10.3217/9adsn-8dv64</a></li>
+</ul>
+
+<h2>Revision and release history</h2>
+
+<h3>2024-11-30, version 1.0</h3>
+
+<ul>
+<li>published/released version 1.0, by Jakob Harden   </li>
+<li>url: <a href="xxxxxxxx">Repository of Graz University of Technology</a>   </li>
+<li>doi: xxxxxxxxx   </li>
+</ul>
