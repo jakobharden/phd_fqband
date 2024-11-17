@@ -7,13 +7,13 @@ For sinusoidal signals, the frequency band of the signal is one of these fundame
 This work proposes a fully automated method for easily, quickly, and stably estimating the frequency band of low-pass signals. The estimation is based on the discrete Fourier transform and threshold detection. Due to the complete automation, special attention is paid to the method's stability.
 The performance of the method is tested here using synthetic and natural signals. The preliminary results show that the automated estimation and visual detection deliver comparable results for the upper frequency band limit.
 
-> [!INFO]
-> The entire content of this script collection was conceived, implemented and tested by Jakob Harden using > the scientific numerical programming language of GNU Octave 6.2.0.
+> [!NOTE]
+> The entire content of this script collection was conceived, implemented and tested by Jakob Harden using the scientific numerical programming language of GNU Octave 6.2.0.
 
 
 ## Table of contents
 
-- [Licence](#licence)
+- [License](#license)
 - [Prerequisites](#prerequisites)
 - [Directory and file structure](#directory-and-file-structure)
 - [Installation instructions](#installation-instructions)
@@ -24,7 +24,7 @@ The performance of the method is tested here using synthetic and natural signals
 - [Revision and release history](#revision-and-release-history)
 
 
-## Licence
+## License
 
 Copyright 2024 Jakob Harden (jakob.harden@tugraz.at, Graz University of Technology, Graz, Austria)
 
@@ -50,7 +50,7 @@ To compile the LaTeX documents in this repository a TeXlive installation is requ
 
 ## Directory and file structure
 
-All GNU Octave script files (\*.m) are UTF-8 encoded plain text files written in the scientific programming language of GNU Octave 6.2.0. All LaTeX files (\*.tex) are UTF-8 encoded plain text files.
+GNU Octave script files (\*.m) are written in the scientific programming language of GNU Octave 6.2.0. LaTeX files (\*.tex) are written with compliance to TeXlive version 2020.20210202-3. Text files are generally encoded in UTF-8.
 
 ```
 fqband/   
