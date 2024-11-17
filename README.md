@@ -47,6 +47,9 @@ To compile the LaTeX documents in this repository a TeXlive installation is requ
 
 [TeXlive download](https://www.tug.org/texlive/windows.html)
 
+> [!TIP]
+> **TeXStudio** is a convinient and powerful solution to edit TeX files!
+
 
 ## Directory and file structure
 
