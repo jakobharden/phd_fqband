@@ -1,12 +1,14 @@
 # Frequency band estimation for sinusoidal low-pass signals in noise
 
-
 ## Abstract
 
 Classic signal analysis usually begins with collecting information about the properties of the signal to the greatest extent possible. This information is the basis for the sensible selection of analysis methods and their parameterization.
 For sinusoidal signals, the frequency band of the signal is one of these fundamental signal properties. Estimating the frequency band can be a challenge, especially for signals with a small signal-to-noise ratio.
 This work proposes a fully automated method for easily, quickly, and stably estimating the frequency band of low-pass signals. The estimation is based on the discrete Fourier transform and threshold detection. Due to the complete automation, special attention is paid to the method's stability.
 The performance of the method is tested here using synthetic and natural signals. The preliminary results show that the automated estimation and visual detection deliver comparable results for the upper frequency band limit.
+
+[!INFO]
+The entire content of this script collection was conceived, implemented and tested by Jakob Harden using the scientific numerical programming language of GNU Octave 6.2.0.
 
 
 ## Table of contents
@@ -16,7 +18,7 @@ The performance of the method is tested here using synthetic and natural signals
 - Directory and file structure
 - Installation instructions
 - Usage instructions
-- Help
+- Help and Documentation
 - Related data sources
 - Related software
 - Revision and release history
@@ -28,9 +30,9 @@ Copyright 2024 Jakob Harden (jakob.harden@tugraz.at, Graz University of Technolo
 
 This file is part of the PhD thesis of Jakob Harden.
 
-All GNU Octave function files (*.m) are published under the *GNU Affero General Public Licence v3.0*. See also licence information file "LICENSE".
+All GNU Octave function files (\*.m) are licensed under the *GNU Affero General Public Licence v3.0*. See also licence information file "LICENSE".
 
-All other files are published under the *Creative Commons Attribution 4.0* licence. See also licence information: [Licence deed](https://creativecommons.org/licenses/by/4.0/deed.en)
+All other files are licensed under the *Creative Commons Attribution 4.0* licence. See also licence information: [Licence deed](https://creativecommons.org/licenses/by/4.0/deed.en)
 
 
 ## Prerequisites
@@ -81,8 +83,8 @@ fqband/
   - adaptthemePresRIP.tex ... LaTeX beamer class configuration
   - biblio.bib ... bibliography
   - main.tex ... main document, presentation source code
-- **fqband/published** ... published documents, archives
-- **fqband/octave** ... GNU Octave script files and analysis results
+- **fqband/published** ... published documents, archives (AGPLv3, CC BY-4.0)
+- **fqband/octave** ... GNU Octave script files and analysis results (AGPLv3)
   - dsdefs.m ... dataset definitions, natural signals (ultrasonic pulse transmission tests)
   - init.m ... initialization script, load packages, add subdirectories to path environment variable
   - test_fqband.m ... main script file, frequency band analsis tests
@@ -133,7 +135,7 @@ The *init* command initializes the program. The initialization must be run once 
 To reproduce all analysis results shown in the presentation in **../latex/test_fqband**, run the the first four commands from above.
 
 
-## Help
+## Help and Documentation
 
 All function files contain an adequate function description and instructions on how to use the functions. This documentation can be displayed in the GNU Octave command line interface by entering the following command:
 
@@ -159,19 +161,34 @@ Datasets whos content can be analyzed and plotted with this scripts are made ava
 
 ## Related software
 
-The referenced datasets are compiled from raw data using a dataset compilation tool implemented in the programming language of GNU Octave 6.2.0 ("Dataset Compiler, version 1.1") . To understand the structure of the datasets, it is a good idea to look at the soure code of that tool. Therefore, it was made publicly available under the MIT license at the repository of Graz University of Technology.
-
-Another tool, implemented in the programming language of GNU Octave 6.2.0, allows for exporting data contained in the datasets ("Dataset Exporter, version 1.0"). The main features of that script collection cover the export of substructures to variables and the serialization to the CSV format, the JSON structure format and TeX code. It is also made publicly available under the MIT licence at the repository of Graz University of Technology.
-
-
 ### Dataset Compiler, version 1.1:
 
+The referenced datasets are compiled from raw data using a dataset compilation tool implemented in the programming language of GNU Octave 6.2.0. To understand the structure of the datasets, it is a good idea to look at the soure code of that tool. Therefore, it was made publicly available under the MIT license at the repository of Graz University of Technology.
+
 - Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Data set compiler (1.1)". Graz University of Technology. [doi: 10.3217/6qg3m-af058](https://doi.org/10.3217/6qg3m-af058)
+
+[!NOTE]
+*Dataset Compiler* is also available on **github**. [Dataset Compiler](https://github.com/jakobharden/phd_dataset_compiler)
 
 
 ### Dataset Exporter, version 1.0:
 
+*Dataset Exporter* is implemented in the programming language of GNU Octave 6.2.0 and allows for exporting data contained in the datasets. The main features of that script collection cover the export of substructures to variables and the serialization to the CSV format, the JSON structure format and TeX code. It is also made publicly available under the MIT licence at the repository of Graz University of Technology.
+
 - Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Exporter (1.0)". Graz University of Technology. [doi: 10.3217/9adsn-8dv64](https://doi.org/10.3217/9adsn-8dv64)
+
+[!NOTE]
+*Dataset Exporter* is also available on **github**. [Dataset Exporter](https://github.com/jakobharden/phd_dataset_exporter)
+
+
+### Dataset Viewer, version 1.0:
+
+*Dataset Viewer* is implemented in the programming language of GNU Octave 6.2.0 and allows for plotting measurement data contained in the datasets. The main features of that script collection cover 2D plots, 3D plots and rendering MP4 video files from the measurement data contained in the datasets. It is also made publicly available under the MIT licence at the repository of Graz University of Technology.
+
+- Harden, J. (2023) "Ultrasonic Pulse Transmission Tests: Dataset Viewer (1.0)". Graz University of Technology. [doi: 10.3217/c1ccn-8m982](https://doi.org/10.3217/c1ccn-8m982)
+
+[!NOTE]
+*Dataset Viewer* is also available on **github**. [Dataset Viewer](https://github.com/jakobharden/phd_dataset_viewer)
 
 
 ## Revision and release history
