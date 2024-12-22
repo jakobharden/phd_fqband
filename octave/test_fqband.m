@@ -1,4 +1,4 @@
-## Estimate frequency range estimates for all datasets of a test series
+## Test: estimate upper frequency band limit of sinusoidal low-pass signals in noise
 ##
 ## Usage: test_fqband(p_rm)
 ##
@@ -13,7 +13,25 @@
 ##
 ## see also: tool_scale_noise2snr, tool_est_dft_fqband, dsdefs
 ##
-## Copyright 2024 Jakob Harden (jakob.harden@tugraz.at, Graz University of Technology, Graz, Austria)
+#######################################################################################################################
+## LICENSE
+##
+##    Copyright (C) 2024 Jakob Harden (jakob.harden@tugraz.at, Graz University of Technology, Graz, Austria)
+##
+##    This program is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU Affero General Public License as
+##    published by the Free Software Foundation, either version 3 of the
+##    License, or (at your option) any later version.
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU Affero General Public License for more details.
+##
+##    You should have received a copy of the GNU Affero General Public License
+##    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+##
+#######################################################################################################################
 ## This file is part of the PhD thesis of Jakob Harden.
 ##
 function [r_ds] = test_fqband(p_rm)
@@ -50,7 +68,7 @@ function [r_ds] = test_fqband(p_rm)
     5,  5,  5, ...
     6,  6,  6]; # selected test series id's
   aps.nat_sel_dsid = [...
-    4, 10, 16, 18, ...
+    4, 10, 12, 16, 18, ...
     3, 15, 27, ...
     3, 15, 27]; # selected dataset id's
   aps.nat_sel_sids = {...
@@ -107,7 +125,7 @@ function [r_ds] = test_fqband(p_rm)
       endfor
     case 'nat'
       ## natural signal
-      for k = 1 #1 : numel(aps.nat_sel_tsid)
+      for k = 1 : numel(aps.nat_sel_tsid)
         aps.nat_tsid = aps.nat_sel_tsid(k);
         aps.nat_dsid = aps.nat_sel_dsid(k);
         aps.nat_sids = aps.nat_sel_sids{k};
@@ -121,7 +139,8 @@ function [r_ds] = test_fqband(p_rm)
     case 'ts'
       ## compute all test series, natural signals
       p_aps.nat_sids = [];
-      for k = [1, 3, 4, 5, 6]
+      #for k = [1, 3, 4, 5, 6]
+      for k = [1, 5, 6]
         defs = dsdefs(k);
         aps.nat_tsid = k;
         for j = 1 : defs.dsnum
@@ -210,6 +229,10 @@ function test_fqband_sig(p_ps, p_aps, p_vm)
   title(sprintf('Sinusoidal signal in noise\n%s', si));
   legend(ah, 'box', 'off');
   
+  ## license information
+  annotation(fh, 'textbox', [0, 0, 100, 10], 'string', 'CC BY-4.0 Jakob Harden (Graz University of Technology), 2024', ...
+    'linestyle', 'none', 'fontsize', 8);
+  
   ## save figure
   ofn_pfx = sprintf('sig_DF_%d_SNR_%d', p_aps.DF, p_aps.SNR);
   hgsave(fh, fullfile(p_ps.rpath, sprintf('%s.ofig', ofn_pfx)));
@@ -270,7 +293,8 @@ function test_fqband_syn(p_ps, p_aps, p_vm)
   hold(sh, 'on');
   ## plot noise measurement range
   fill(sh, ff([Lsig + 1, end, end, Lsig + 1]), [0, 0, max(psd) / 2, max(psd) / 2], [1, 1, 1] * 0.8, 'edgecolor', 'none');
-  text(sh, ff(end), max(psd) / 2, 'noise measurement range', 'horizontalalignment', 'right', 'verticalalignment', 'bottom');
+  text(sh, ff(end), max(psd) / 2, sprintf('noise measurement range, t_F = %.2f', tff), ...
+    'horizontalalignment', 'right', 'verticalalignment', 'bottom');
   ## plot power spectrum
   plot(sh, ff, psd, ';PSD;', 'color', p_ps.lc_s, 'linewidth', p_ps.lw_s);
   ## plot frequency band limit
@@ -279,7 +303,6 @@ function test_fqband_syn(p_ps, p_aps, p_vm)
   ## end plot
   hold(sh, 'off');
   ## title, labels
-  xlabel(sh, 'Sample index [1]');
   ylabel(sh, 'Magnitude [V^2/Hz]');
   title(sh, sprintf('Power spectral density (PSD)'));
   legend(sh, 'visible', 'off');
@@ -310,6 +333,10 @@ function test_fqband_syn(p_ps, p_aps, p_vm)
   ah = axes(fh, 'visible', 'off');
   title(ah, sprintf('%s', si));
   
+  ## license information
+  annotation(fh, 'textbox', [0, 0, 100, 10], 'string', 'CC BY-4.0 Jakob Harden (Graz University of Technology), 2024', ...
+    'linestyle', 'none', 'fontsize', 8);
+  
   ## save figure
   ofn_pfx = sprintf('syn_DF_%d_SNR_%d', p_aps.DF, p_aps.SNR);
   hgsave(fh, fullfile(p_ps.rpath, sprintf('%s.ofig', ofn_pfx)));
@@ -334,12 +361,26 @@ function test_fqband_nat(p_ps, p_aps)
   x2 = ds.tst.s07.d13.v(nn, p_aps.nat_sid); # natural signal, S-wave
   si = sprintf('Data set %s, SID = %d', strrep(dscode, '_', '\_'), p_aps.nat_sid);
   
+  ## detection error state
+  deterr1 = false; # P-wave
+  deterr2 = false; # S-wave
+  
   ## estimate frequency band limit
   [fb1, ff, psd1, cc1, pow1, tff1] = tool_est_dft_fqband(x1, p_aps.nat_FS, p_aps.nat_ZPF, p_aps.nat_TPF, p_aps.nat_TFF); # P-wave
+  if isnan(fb1(2))
+    fb1(2) = p_aps.nat_FR(1) / 6;
+    warning('test_fqband: upper frequency band limit could not be detected! data set = %s, P-wave, sid = %d', dscode, p_aps.nat_sid);
+    deterr1 = true;
+  endif
   fc1 = test_fqband_fqcen(ff, psd1, fb1(2));
   thv1 = pow1(3) * p_aps.nat_TPF;
   
   [fb2, ff, psd2, cc2, pow2, tff2] = tool_est_dft_fqband(x2, p_aps.nat_FS, p_aps.nat_ZPF, p_aps.nat_TPF, p_aps.nat_TFF); # S-wave
+  if isnan(fb2(2))
+    fb2(2) = p_aps.nat_FR(1) / 6;
+    warning('test_fqband: upper frequency band limit could not be detected! data set = %s, P-wave, sid = %d', dscode, p_aps.nat_sid);
+    deterr2 = true;
+  endif
   fc2 = test_fqband_fqcen(ff, psd2, fb2(2));
   thv2 = pow2(3) * p_aps.nat_TPF;
   
@@ -434,12 +475,14 @@ function test_fqband_nat(p_ps, p_aps)
   hold(sh, 'on');
   ## plot power spectrum
   plot(sh, ff, psd1, ';PSD_P;', 'color', p_ps.lc_pw, 'linewidth', p_ps.lw_pw);
-  ## plot frequency band limit
-  plot(sh, [1, 1] * fb1(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fb1(2), ylim()(2), sprintf(' F_{lim} = %.1f kHz', fb1(2)), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
-  ## plot center frequency
-  plot(sh, [1, 1] * fc1, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fc1, ylim()(2) * 0.8, sprintf(' F_{cen} = %.1f kHz', fc1), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  if not(deterr1)
+    ## plot frequency band limit
+    plot(sh, [1, 1] * fb1(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fb1(2), ylim()(2), sprintf(' F_{lim} = %.1f kHz', fb1(2)), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+    ## plot center frequency
+    plot(sh, [1, 1] * fc1, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fc1, ylim()(2) * 0.8, sprintf(' F_{cen} = %.1f kHz', fc1), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  endif
   ## end plot
   hold(sh, 'off');
   ## title, labels
@@ -458,12 +501,14 @@ function test_fqband_nat(p_ps, p_aps)
   hold(sh, 'on');
   ## plot power spectrum
   plot(sh, ff, psd2, ';PSD_S;', 'color', p_ps.lc_sw, 'linewidth', p_ps.lw_sw);
-  ## plot frequency band limit
-  plot(sh, [1, 1] * fb2(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fb2(2), ylim()(2), sprintf(' F_{lim} = %.1f kHz', fb2(2)), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
-  ## plot center frequency
-  plot(sh, [1, 1] * fc2, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fc2, ylim()(2) * 0.8, sprintf(' F_{cen} = %.1f kHz', fc2), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  if not(deterr2)
+    ## plot frequency band limit
+    plot(sh, [1, 1] * fb2(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fb2(2), ylim()(2), sprintf(' F_{lim} = %.1f kHz', fb2(2)), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+    ## plot center frequency
+    plot(sh, [1, 1] * fc2, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fc2, ylim()(2) * 0.8, sprintf(' F_{cen} = %.1f kHz', fc2), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  endif
   ## end plot
   hold(sh, 'off');
   ## title, labels
@@ -482,15 +527,17 @@ function test_fqband_nat(p_ps, p_aps)
   hold(sh, 'on');
   ## plot cumulative sum
   plot(sh, ff, cc1, ';CS(PSD_P);', 'color', p_ps.lc_pw, 'linewidth', p_ps.lw_pw);
-  ## plot threshold, upper frequency band limit
-  plot(sh, ff([1, end]), [1, 1] * thv1(2), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, lim_ff1(2), thv1(2), sprintf(' t_P = %.2e', thv1(2)), 'horizontalalignment', 'right', 'verticalalignment', 'top', 'fontsize', 9);
-  ## plot frequency band limit
-  plot(sh, [1, 1] * fb1(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fb1(2), ylim()(1), sprintf(' F_{lim} = %.1f kHz', fb1(2)), 'horizontalalignment', 'left', 'verticalalignment', 'bottom', 'fontsize', 9);
-  ## plot center frequency
-  plot(sh, [1, 1] * fc1, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fc1, ylim()(2) * 0.4, sprintf(' F_{cen} = %.1f kHz', fc1), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  if not(deterr1)
+    ## plot threshold, upper frequency band limit
+    plot(sh, ff([1, end]), [1, 1] * thv1(2), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, lim_ff1(2), thv1(2), sprintf(' t_P = %.2e', thv1(2)), 'horizontalalignment', 'right', 'verticalalignment', 'top', 'fontsize', 9);
+    ## plot frequency band limit
+    plot(sh, [1, 1] * fb1(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fb1(2), ylim()(1), sprintf(' F_{lim} = %.1f kHz', fb1(2)), 'horizontalalignment', 'left', 'verticalalignment', 'bottom', 'fontsize', 9);
+    ## plot center frequency
+    plot(sh, [1, 1] * fc1, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fc1, ylim()(2) * 0.4, sprintf(' F_{cen} = %.1f kHz', fc1), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  endif
   ## end plot
   hold(sh, 'off');
   ## title, labels
@@ -509,15 +556,17 @@ function test_fqband_nat(p_ps, p_aps)
   hold(sh, 'on');
   ## plot cumulative sum
   plot(sh, ff, cc2, ';CS(PSD_S);', 'color', p_ps.lc_sw, 'linewidth', p_ps.lw_sw);
-  ## plot threshold, upper frequency band limit
-  plot(sh, ff([1, end]), [1, 1] * thv2(2), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, lim_ff2(2), thv2(2), sprintf(' t_P = %.2e', thv2(2)), 'horizontalalignment', 'right', 'verticalalignment', 'top', 'fontsize', 9);
-  ## plot frequency band limit
-  plot(sh, [1, 1] * fb2(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fb2(2), ylim()(1), sprintf(' F_{lim} = %.1f kHz', fb2(2)), 'horizontalalignment', 'left', 'verticalalignment', 'bottom', 'fontsize', 9);
-  ## plot center frequency
-  plot(sh, [1, 1] * fc2, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
-  text(sh, fc2, ylim()(2) * 0.4, sprintf(' F_{cen} = %.1f kHz', fc2), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  if not(deterr2)
+    ## plot threshold, upper frequency band limit
+    plot(sh, ff([1, end]), [1, 1] * thv2(2), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, lim_ff2(2), thv2(2), sprintf(' t_P = %.2e', thv2(2)), 'horizontalalignment', 'right', 'verticalalignment', 'top', 'fontsize', 9);
+    ## plot frequency band limit
+    plot(sh, [1, 1] * fb2(2), ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fb2(2), ylim()(1), sprintf(' F_{lim} = %.1f kHz', fb2(2)), 'horizontalalignment', 'left', 'verticalalignment', 'bottom', 'fontsize', 9);
+    ## plot center frequency
+    plot(sh, [1, 1] * fc2, ylim(), 'color', 'k', 'linewidth', p_ps.lw_sep, 'handlevisibility', 'off');
+    text(sh, fc2, ylim()(2) * 0.4, sprintf(' F_{cen} = %.1f kHz', fc2), 'horizontalalignment', 'left', 'verticalalignment', 'top', 'fontsize', 9);
+  endif
   ## end plot
   hold(sh, 'off');
   ## title, labels
@@ -530,6 +579,10 @@ function test_fqband_nat(p_ps, p_aps)
   ## main axes
   ah = axes(fh, 'visible', 'off');
   title(ah, sprintf('%s', si));
+  
+  ## license information
+  annotation(fh, 'textbox', [0, 0, 100, 10], 'string', 'CC BY-4.0 Jakob Harden (Graz University of Technology), 2024', ...
+    'linestyle', 'none', 'fontsize', 8);
   
   ## save figure
   ofn_pfx = sprintf('nat_DS_%s_SID_%d', dscode, p_aps.nat_sid);
@@ -640,6 +693,10 @@ function test_fqband_ts(p_ps, p_aps)
   ylabel(ah, 'Frequency [kHz]');
   title(ah, sprintf('Frequency band limits - %s', si));
   legend(ah, 'box', 'off', 'location', 'southoutside', 'orientation', 'horizontal');
+  
+  ## license information
+  annotation(fh, 'textbox', [0, 0, 100, 10], 'string', 'CC BY-4.0 Jakob Harden (Graz University of Technology), 2024', ...
+    'linestyle', 'none', 'fontsize', 8);
   
   ## save figure
   ofn_pfx = sprintf('ts_DS_%s', dscode);

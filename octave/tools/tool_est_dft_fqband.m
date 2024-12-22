@@ -1,4 +1,4 @@
-## Estimate upper frequency band limit of a sinusoidal low-pass signal
+## Estimate upper frequency band limit of sinusoidal low-pass signals in noise
 ##
 ## Usage: [r_fb, r_ff, r_pp, r_cc, r_pw, r_tf] = tool_est_dft_fqband(p_xx, p_fs, p_zp, p_tp, p_tf)
 ##

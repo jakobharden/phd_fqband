@@ -1,6 +1,6 @@
 ## Estimate discrete Fourier transform for real valued signals (rectangular window)
 ##
-## Usage: [r_ff, r_dft, r_as, r_ps, r_nb] = tool_est_dft(p_xx, p_fs, p_zp)
+## Usage: [r_ff, r_dft, r_as, r_ps, r_lsd, r_psd, r_enbw] = tool_est_dft(p_xx, p_fs, p_zp, p_rn)
 ##
 ## p_xx   ... signal amplitude matrix, each column represents one signal, [<dbl>] or [[<dbl>]]
 ## p_fs   ... sample rate in Hz, optional, default = 2 <uint>

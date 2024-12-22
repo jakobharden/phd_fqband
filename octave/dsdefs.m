@@ -5,14 +5,14 @@
 ## p_ti ... test series id, <uint>
 ## r_ds ... return: dataset definition data structure, <struct_dsdef>
 ##
-## see also: run_test_3
+## see also: test_fqband
 ##
 ## Available dataset types:
 ##   p_ti = 1: cement paste tests
 ##   p_ti = 3: air reference tests, shear wave sensor F_resonance = 110 kHz
 ##   p_ti = 4: cement paste tests, shear wave sensor F_resonance = 110 kHz
-##   p_ti = 5: air reference tests
-##   p_ti = 6: water reference tests
+##   p_ti = 5: reference tests, air
+##   p_ti = 6: reference tests, water
 ##
 #######################################################################################################################
 ## LICENSE
