@@ -40,9 +40,9 @@
 \addbibresource{biblio.bib}
 %
 % text blocks
-\def\PresTitle{Automated frequency band estimation for sinusoidal low-pass signals}
+\def\PresTitle{Automated frequency band estimation for sinusoidal low-pass signals in noise}
 \def\PresSubTitle{A numerical study on synthetic and natural signals}
-\def\PresDate{10/12/2024}
+\def\PresDate{22${}^{\text{nd}}$ December, 2024}
 \def\PresFootInfo{My PhD thesis, research in progress ...}
 \def\PresAuthorFirstname{Jakob}
 \def\PresAuthorLastname{Harden}
@@ -67,7 +67,7 @@
 \input{adaptthemePresRIP}
 %
 % Graphics file path
-\graphicspath{ {../../octave/results/test_fqband} }
+\graphicspath{ {../octave/results/test_fqband} }
 %
 %#######################################################################################################################
 \begin{document}
@@ -134,7 +134,7 @@
 			\end{itemize}
 			\item \textcolor{RIPtitlecol}{HIGHLIGHT}
 			\begin{itemize}
-				\item \textbf{Automated estimation and the visual inspection deliver comparable results.}
+				\item \textbf{Automated estimation and visual inspection deliver comparable results.}
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -162,22 +162,22 @@
 			\item \parbox{20mm}{\textcolor{RIPtitlecol}{Assumptions}}
 			\begin{itemize}
 				\item signals are (mostly) mean-free, (damped) sinusoidal low-pass signals
-				\item uncorrelated noise, i.i.d. noise, Gaussian white noise
+				\item uncorrelated i.i.d. noise, Gaussian white noise
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Materials - synthetic test signals}
+		\frametitle{Materials \textendash{} Synthetic test signals}
 		\begin{itemize}
 			\item \textcolor{RIPtitlecol}{Synthetic test signals - damped sinusoidal signals in noise}
 			\begin{itemize}
-				\item Signal model: $x = s + \nu$
-				\item $s[n] = A \cdot \left( \sum\limits_{F=1}^{5} sin(2\,\pi\,F\,\frac{n}{N-1}) \right) \cdot e^{-DF\,\frac{n}{N-1}}$
+				\item Signal model $x_{LP} = s_{LP} + \nu$
+				\item $s_{LP}[n] = A \cdot \left( \sum\limits_{F=1}^{5} sin(2\,\pi\,F\,\frac{n}{N-1}) \right) \cdot e^{-DF\,\frac{n}{N-1}}$
 				\item $n = 0,\ldots,N-1, \quad N = F_s \cdot N_{cy}$
 				\item Noise $\nu$, i.i.d. noise, Gaussian white noise
-				\item Signal frequencies $F = [1, 2, 3, 4, 5]$ [Hz], Sampling frequency $F_s = 100$ [Hz]
+				\item Signal frequencies $F = (1, 2, 3, 4, 5)$ Hz, sampling frequency $F_s = 100$ Hz
 				\item Amplitude $A = 1$ V, number of cycles $N_{cy} = 3$, exponential decay factor $DF$
 				\item Noise floor before and behind the middle signal section, $L_{pre} = L_{post} = F_s$
 			\end{itemize}
@@ -192,32 +192,32 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Materials - natural signals}
+		\frametitle{Materials \textendash{} Natural signals}
 		\begin{itemize}
 			\item \textcolor{RIPtitlecol}{Signal series from ultrasonic pulse transmission tests}
 			\begin{itemize}
-				\item Specimen: cement paste, water-cement ratio 0.4 (ordinary Portland cement and water)
-				\item Measurement distance $D = 50$ mm
-				\item Piezo-electric sensor's natural frequency $F_{nat} = 500$ kHz
-				\item Pulse voltage 800 [V], Pulse width 2.5 $\mu$Sec
-				\item Sampling frequency $F_s = 10$ MHz
-				\item Vertical resolution 16 bit
-				\item Test duration 24 hr (cement paste tests)
-				\item Recording interval 5 Min (cement paste tests)
-				\item Two-channel test (P-wave, S-wave)
+				\item Specimen: cement paste, water-cement-ratio $w/c = 0.4$
+				\item Ultrasonic measuring distance: $D = 50$ mm
+				\item Piezo-electric sensor's natural frequency: $F_{nat} = 500$ kHz
+				\item Pulse voltage: 800 V, Pulse width: 2.5 $\mu$Seconds
+				\item Sampling frequency: $F_s = 10$ MHz
+				\item Vertical resolution: 16 bit
+				\item Test duration: 24 hr (cement paste tests)
+				\item Recording interval: 5 Min (cement paste tests)
+				\item Two-channel test: primary wave (P-wave) and secondary wave (S-wave)
 			\end{itemize}
 			\item \textcolor{RIPtitlecol}{Analysis settings:}
 			\begin{itemize}
-				\item Frequency threshold factor $t_F = 0.9$ (noise measurement range: 1 to 10 MHz)
-				\item Power threshold factor $t_P = 0.93$
-				\item FFT zero-padding, 3 times signal length
+				\item Frequency threshold factor: $t_F = 0.9$ (PSD noise measurement range: 1 to 10 MHz)
+				\item Power threshold factor: $t_P = 0.93$
+				\item FFT zero-padding: 3 times signal length, $N_{\text{FFT}} = 4\,N$
 			\end{itemize}
 		\end{itemize}	
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Method - signal processing schema}
+		\frametitle{Method \textendash{} Signal processing schema}
 		\begin{figure}
 			\begin{circuitikz}[scale=3, european]
 				\def\nodedist{0.8}
@@ -274,12 +274,12 @@
 					node[right] {$(P_x, \, P_{\nu})$};
 			\end{circuitikz}
 		\end{figure}
-	\small $x_{LP}$~\ldots low-pass signal, $F_s$~\ldots Sampling frequency, $t_F$~\ldots frequency threshold factor, $t_P$~\ldots power threshold factor, $P_x$~\ldots power of signal in noise, $P_{\nu}$~\ldots power of noise, $P_s$~\ldots signal power, $F_{lim}$~\ldots estimate upper frequency band limit. See also notes on next page.
+	\small $x_{LP}$~\ldots{} low-pass signal, $F_s$~\ldots{} sampling frequency, $t_F$~\ldots{} frequency threshold factor, $t_P$~\ldots{} power threshold factor, $P_x$~\ldots{} power of signal in noise, $P_{\nu}$~\ldots{} noise power, $P_s$~\ldots{} signal power, $F_{lim}$~\ldots{} estimate upper frequency band limit. See also notes on next page.
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Method - Signal processing notes}
+		\frametitle{Method \textendash{} Signal processing notes}
 		\begin{itemize}
 			\item \textcolor{RIPtitlecol}{Frequency threshold factor $t_F$}
 			\begin{itemize}
@@ -292,20 +292,20 @@
 				\item multiplier of the estimate signal power $P_s = P_x - P_{\nu}$
 				\item avoid detection over-run for signals with a high signal-to-noise ratio ($P_{\nu} \approx 0$)
 			\end{itemize}
-			\item \textcolor{RIPtitlecol}{PSD scaling:} The PSD magnitudes are scaled such that the sum of the magnitudes is equal to the total signal power $P_x$.
-			\item \textcolor{RIPtitlecol}{Cumulative sum (CS) characteristics for low-pass signals}
+			\item \textcolor{RIPtitlecol}{PSD scaling:} magnitudes are scaled such that the sum of the magnitudes is equal to the total signal power $P_x = \sum S_{xx}$.
+			\item \textcolor{RIPtitlecol}{Cumulative sum (CS) characteristics considering low-pass signals}
 			\begin{itemize}
 				\item Frequency 0 to $F_{lim}$: steep curve until approx. signal energy $P_s$ is reached
 				\item Frequency $F_{lim}$ to $F_{ny}$: mostly linear increasing curve (slope depends on $P_{\nu}$)
 			\end{itemize}
-			\item \textcolor{RIPtitlecol}{Algorithm:} see appendix, page \ref{app:algorithm}
+			\item \textcolor{RIPtitlecol}{Algorithm:} see \appendixname, page \ref{app:algorithm}
 		\end{itemize}	
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\section{Results}
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}\label{res:synthetic}
+		\frametitle{Results \textendash{} Synthetic test signals}\label{res:synthetic}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -315,7 +315,7 @@
 				\end{figure}
 			\end{RIPcolleft}
 			\begin{RIPcolright}
-				\textbf{Test signal 1, model:} \\
+				\textbf{Test signal 1:} \\
 				\begin{itemize}
 					\item no exponential decay, $DF = 0$
 					\item low signal-to-noise ratio, $SNR = 0$ dB
@@ -326,7 +326,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -340,6 +340,7 @@
 				\begin{itemize}
 					\item CS: sharp transition at $F_{lim}$
 					\item $F_{lim}$ is slightly under-estimated
+					\item error $\approx$ -0.1 Hz $\equiv$ 0.2~\% of $F_{ny}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -347,7 +348,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -357,7 +358,7 @@
 				\end{figure}
 			\end{RIPcolleft}
 			\begin{RIPcolright}
-				\textbf{Test signal 2, model:} \\
+				\textbf{Test signal 2:} \\
 				\begin{itemize}
 					\item low exponential decay, $DF = 1$
 					\item low signal-to-noise ratio, $SNR = 0$ dB
@@ -368,7 +369,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -382,6 +383,7 @@
 				\begin{itemize}
 					\item CS: sharp transition at $F_{lim}$
 					\item $F_{lim}$ is slightly under-estimated
+					\item error $\approx$ -0.2 Hz $\equiv$ 0.4~\% of $F_{ny}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -389,7 +391,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -399,7 +401,7 @@
 				\end{figure}
 			\end{RIPcolleft}
 			\begin{RIPcolright}
-				\textbf{Test signal 3, model:} \\
+				\textbf{Test signal 3:} \\
 				\begin{itemize}
 					\item moderate exponential decay, $DF = 2$
 					\item low signal-to-noise ratio, $SNR = 0$ dB
@@ -410,7 +412,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -424,6 +426,7 @@
 				\begin{itemize}
 					\item CS: sharp transition at $F_{lim}$
 					\item $F_{lim}$ is slightly under-estimated
+					\item error $\approx$ -0.5 Hz $\equiv$ 1.0~\% of $F_{ny}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -431,7 +434,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -441,7 +444,7 @@
 				\end{figure}
 			\end{RIPcolleft}
 			\begin{RIPcolright}
-				\textbf{Test signal 4, model:} \\
+				\textbf{Test signal 4:} \\
 				\begin{itemize}
 					\item strong exponential decay, $DF = 4$
 					\item low signal-to-noise ratio, $SNR = 0$ dB
@@ -452,7 +455,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - synthetic test signals}
+		\frametitle{Results \textendash{} Synthetic test signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -466,6 +469,7 @@
 				\begin{itemize}
 					\item CS: smooth transition at $F_{lim}$
 					\item $F_{lim}$ is slightly under-estimated
+					\item error $\approx$ -0.8 Hz $\equiv$ 1.6~\% of $F_{ny}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -473,7 +477,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}\label{res:natural}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -499,7 +503,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -513,6 +517,7 @@
 				\begin{itemize}
 					\item ts1\_wc040\_d50\_4 \cite{ts1ds}
 					\item signal \#1 of 288, maturity 0 hr
+					\item \textbf{Note:} the center frequency $F_{cen}$ is the weighted average of all frequencies in the detected frequency band
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -520,7 +525,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -541,7 +546,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -562,7 +567,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -583,7 +588,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -600,7 +605,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave, PSD: additional side lobe at $\approx 500$ kHz
+					\item P-wave PSD: additional side lobe at $F \approx 500$ kHz
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -608,25 +613,24 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals, counter example}\label{res:counterexample}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
 			\begin{RIPcolleft}
 				\begin{figure}
-					\includegraphics[height=55mm,trim= 0mm 0mm 0mm 20mm] {ts_DS_ts1_wc040_d50_4.png}
+					\includegraphics[height=55mm,trim= 0mm 0mm 0mm 20mm] {ts_DS_ts1_wc040_d50_6.png}
 				\end{figure}
 			\end{RIPcolleft}
 			\begin{RIPcolright}
 				\textbf{Data set:} \\
 				\begin{itemize}
-					\item ts1\_wc040\_d50\_4 \cite{ts1ds}
+					\item ts1\_wc040\_d50\_6 \cite{ts1ds}
 					\item 288 signals per channel
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: maximum $F_{lim} \approx 100$ \% of $F_{nat}$
-					\item S-wave: maximum $F_{lim} \approx 55$ \% of $F_{nat}$
+					\item P-wave, S-wave: increased $F_{lim}$ at low maturity where low frequency limits are expected (maturity: 0 to 2 hr)
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -634,20 +638,43 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Results - natural signals}
+		\frametitle{Results \textendash{} Natural signals, counter example}
+		% place graphs and images in the left column
+		% comment on results in the right column
+		\begin{columns}[t]
+			\begin{RIPcolleft}
+				\begin{figure}
+					\includegraphics[height=55mm,trim= 0mm 0mm 0mm 20mm] {nat_DS_ts1_wc040_d50_6_SID_1.png}
+				\end{figure}
+			\end{RIPcolleft}
+			\begin{RIPcolright}
+				\textbf{Data set:} \\
+				\begin{itemize}
+					\item ts1\_wc040\_d50\_6 \cite{ts1ds}
+					\item signal \#1 of 288, maturity 0 hr
+				\end{itemize}
+				\textbf{Observations:} \\
+				\begin{itemize}
+					\item P-wave PSD: vanishing signal, detection failed!
+					\item S-wave PSD: $F_{lim}$ is overestimated significantly!
+				\end{itemize}
+			\end{RIPcolright}
+		\end{columns}
+	\end{frame}
+	%
+	%-------------------------------------------------------------------------------------------------------------------
+	\begin{frame}
+		\frametitle{Results \textendash{} Natural signals, further results}
+		In the \appendixname, additional analysis results for the datasets listed below are shown.
 		\begin{itemize}
-			\item \textcolor{RIPtitlecol}{Additional analysis results (see appendix)}
-			\begin{itemize}
-				\item Cement paste tests, water-cement ratio 0.4, $D = 25$ mm, page \pageref{app:cem25}
-				\item Cement paste tests, water-cement ratio 0.4, $D = 70$ mm, page \pageref{app:cem70}
-				\item Reference tests, air, $D = 25$ mm, page \pageref{app:air25}
-				\item Reference tests, air, $D = 50$ mm, page \pageref{app:air50}
-				\item Reference tests, air, $D = 70$ mm, page \pageref{app:air70}
-				\item Reference tests, water, $D = 25$ mm, page \pageref{app:water25}
-				\item Reference tests, water, $D = 50$ mm, page \pageref{app:water50}
-				\item Reference tests, water, $D = 70$ mm, page \pageref{app:water70}
-			\end{itemize}
-			\vspace*{4em}
+			\item Cement paste tests\cite{ts1ds}, $w/c = 0.4$, $D = 25$ mm, page \pageref{app:cem25}
+			\item Cement paste tests\cite{ts1ds}, $w/c = 0.4$, $D = 70$ mm, page \pageref{app:cem70}
+			\item Reference tests, air\cite{ts5ds}, $D = 25$ mm, page \pageref{app:air25}
+			\item Reference tests, air\cite{ts5ds}, $D = 50$ mm, page \pageref{app:air50}
+			\item Reference tests, air\cite{ts5ds}, $D = 70$ mm, page \pageref{app:air70}
+			\item Reference tests, water\cite{ts6ds}, $D = 25$ mm, page \pageref{app:water25}
+			\item Reference tests, water\cite{ts6ds}, $D = 50$ mm, page \pageref{app:water50}
+			\item Reference tests, water\cite{ts6ds}, $D = 70$ mm, page \pageref{app:water70}
 		\end{itemize}	
 	\end{frame}
 	%
@@ -656,7 +683,7 @@
 	\begin{frame}
 		\frametitle{Conclusions I}
 		% briefly summarize all observations
-		The results presented before allow, with respect to the chosen analysis parameters, for the following conclusions:
+		With respect to the chosen analysis parameters, the results presented before allow for the following conclusions:
 %		In der Kumulationssumme wird der Übergang bei der Grenzfrequenz $F_{lim}$ mit zunehmendem Dämpfungsfaktor runder. Dies hat Auswirkungen auf die Schwellenwertdetektion.
 %		Die Grenzfrequenz wird generell geringfügig überschätzt. Erst bei starker exponentieller Dämpfung (DF = 4) wird diese unterschätzt.
 %		Die Methode liefert auch bei dominantem Signalrauschen (SNR = 0 dB) zuverlässig Schätzungen für die Grenzfrequenz. Auch dort, wo eine Schwellenwertdetektion im Leistungsspektrum kaum noch möglich ist.
@@ -665,7 +692,7 @@
 			\begin{itemize}
 				\item In the cumulative sum, the transition at the frequency limit $F_{lim}$ becomes smoother with increasing decay factor. This smoothness is related to the exponential decay and spectral leakage. It also has an impact on the threshold detection.
 				\item The frequency limit is generally slightly underestimated.
-				\item The method delivers usable frequency limit estimates even when noise is dominant (SNR = 0 dB) and threshold detection in the PSD becomes difficult.
+				\item The proposed method delivers usable frequency limit estimates even when noise is dominant (SNR = 0 dB) and therefore threshold detection in the PSD becomes difficult.
 			\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -678,12 +705,12 @@
 		\begin{itemize}
 			\item \parbox{50mm}{\textcolor{RIPtitlecol}{Natural signals}}
 			\begin{itemize}
-				\item The method also shows good stability with natural signals and their broad bandwidth regarding frequencies, noise and decay.
+				\item The method also shows good stability with natural signals and their broad bandwidth regarding frequencies, noise and decay. The counter example on page \pageref{res:counterexample} shows that the method fails if the signal power becomes very low.
 				\item For the vast majority of signals the frequency band limit $F_{lim}$ is limited by the sensor's natural frequency.
 				\item In the signal series of the cement paste tests, additional side lobes in the power spectrum can occasionally be observed in the range of the sensor's natural frequency and above. This indicates that the sensor can oscillate freely at its natural frequency. However, the possibility that the test specimen is at least partially decoupled from the sensor surface cannot be ruled out.
 			\end{itemize}
 		\end{itemize}
-		Another observation is that the computation of an entire series of about 600 signals takes about one second. For all results shown here, no computation faults happened.
+		\textbf{Aside:} The computation of an entire series of about 600 signals takes about one second.
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
@@ -696,44 +723,39 @@
 		\begin{itemize}
 			\item How do estimation results depend on the spectral leakage of the discrete Fourier transformation? Spectral leakage arises from exponential decay and non-coherent sampling.
 			\item How does the amount of signal data influence estimation accuracy and precision? Power estimates, especially the noise power, depends on the amount of available data.
-			\item How do the results change when changing the method's estimation schema towards accuracy? At the moment, the power of noise in the low-pass section is not taken into account.
+			\item How do the results change when changing the method's estimation schema towards accuracy? Yet, the noise power in the PSD's low-pass section is not taken into account.
+			\item How to extend the proposed method to band-pass signals? Yet, the method is designed for low-pass signals only.
 		\end{itemize}
+		\vspace*{.5em}
+		\small \textbf{Note:} To support the future development of the proposed method, the supplementary GNU Octave code\autocite{progcode} and the \LaTeX{} code\autocite{texcode} to this presentation is made available publicly under open licenses.
 	\end{frame}
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\section*{References}
 	\begin{frame}[noframenumbering]
 		\frametitle{References}
-		\printbibliography
+		%\printbibliography
+		\printbibliography[type={online},title={References \textendash{} Online Resources}]
+		%\nocite{*}
+	\end{frame}
+	%
+	%-------------------------------------------------------------------------------------------------------------------
+	\begin{frame}[noframenumbering]
+		\frametitle{References}
+		\printbibliography[type={dataset},title={References \textendash{} Datasets}]
 		%\nocite{*}
 	\end{frame}
 	%
 	%===================================================================================================================
 	\appendix
 	\section{\appendixname}
-	\begin{frame}
-		\frametitle{Appendix - Table of Contents}
-		% a brief summary of additional content
-		\begin{itemize}
-			\item Algorithm, page \pageref{app:algorithm}
-			\item Cement paste tests\cite{ts1ds}, water-cement ratio 0.40, D = 25 mm, page \pageref{app:cem25}
-			\item Cement paste tests\cite{ts1ds}, water-cement ratio 0.40, D = 70 mm, page \pageref{app:cem70}
-			\item Reference tests, air\cite{ts5ds}, D = 25 mm, page \pageref{app:air25}
-			\item Reference tests, air\cite{ts5ds}, D = 50 mm, page \pageref{app:air50}
-			\item Reference tests, air\cite{ts5ds}, D = 70 mm, page \pageref{app:air70}
-			\item Reference tests, water\cite{ts6ds}, D = 25 mm, page \pageref{app:water25}
-			\item Reference tests, water\cite{ts6ds}, D = 50 mm, page \pageref{app:water50}
-			\item Reference tests, water\cite{ts6ds}, D = 70 mm, page \pageref{app:water70}
-		\end{itemize}
-	\end{frame}
 	%
-	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Algorithm part I}\label{app:algorithm}
+		\frametitle{Appendix \textendash{} Algorithm part I}\label{app:algorithm}
 		% pseudo-code, mathematical description of the method
 		$\mathbf{x} \in \mathbb{R}^N$ \ldots signal amplitude array\\
 		$F_s \in \mathbb{R}$ \ldots sampling frequency\\
-		$z \in \mathbb{R}$ \ldots zero-padding factor, multiple of signal length $N$\\
+		$z \in \mathbb{R}$ \ldots zero-padding factor, multiplier of the signal's length $N$\\
 		\vspace*{1em}
 		$F_{lim}$ = ESTIMATE\_FREQUENCY\_BAND($\mathbf{x}$, $F_s$, $z$, $t_P$, $t_F$)\\
 		\begin{algorithmic}[1]
@@ -756,7 +778,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Algorithm part II}
+		\frametitle{Appendix \textendash{} Algorithm part II}
 		% pseudo-code, mathematical description of the method
 		
 		\begin{algorithmic}[1]
@@ -784,13 +806,13 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Algorithm part III}
+		\frametitle{Appendix \textendash{} Algorithm part III}
 		% pseudo-code, mathematical description of the method
 		\begin{algorithmic}[1]
 			\setcounter{ALG@line}{12}
 			\State $k_{lim} \gets \inf(arg(\mathbf{F} \geq F_{lim}))$
 				\Comment{find bin index close to frequency limit}
-			\State $L_s \gets \min(2 \, k_{lim}, 0.5 \, N_{bin})$
+			\State $L_s \gets \min(2 \, k_{lim}, \lceil 0.5 \, N_{bin} \rceil)$
 				\Comment{update length of signal section}
 			\State $L_{\nu} \gets N_{bin} - L_s$
 				\Comment{update length of noise measurement section}
@@ -811,7 +833,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Cement paste tests, water-cement ratio 0.40, D = 25 mm}\label{app:cem25}
+		\frametitle{Appendix \textendash{} Cement paste tests, w/c = 0.40, D = 25 mm}\label{app:cem25}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -828,7 +850,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item S-wave: "hill" around maturity of 5.5 hr
+					\item S-wave: `hill' around maturity of 5.5 hr
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -836,7 +858,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Cement paste tests, water-cement ratio 0.40, D = 25 mm}
+		\frametitle{Appendix \textendash{} Cement paste tests, w/c = 0.40, D = 25 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -853,7 +875,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item S-wave, PSD: small side lobe at $F_{lim} \approx 180$ kHz
+					\item S-wave PSD: small side lobe at $F \approx 250$ kHz
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -861,7 +883,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Cement paste tests, water-cement ratio 0.40, D = 70 mm}\label{app:cem70}
+		\frametitle{Appendix \textendash{} Cement paste tests, w/c = 0.40, D = 70 mm}\label{app:cem70}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -878,9 +900,8 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: maximum $F_{lim} \approx 110$ \% of $F_{nat}$
+					\item P-wave: maximum $F_{lim} \approx 110$ \% of $F_{nat}$, `hill' between 10 and 18 hr
 					\item S-wave: maximum $F_{lim} \approx 60$ \% of $F_{nat}$
-					\item P-wave: "hill" between 10 and 18 hr
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -888,7 +909,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Cement paste tests, water-cement ratio 0.40, D = 70 mm}
+		\frametitle{Appendix \textendash{} Cement paste tests, w/c = 0.40, D = 70 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -905,7 +926,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave, PSD: additional side lobe at $F_{lim} \approx 525$ kHz
+					\item P-wave PSD: additional side lobe at $F \approx 525$ kHz
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -913,7 +934,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 25 mm}\label{app:air25}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 25 mm}\label{app:air25}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -930,8 +951,8 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: $F_{lim} \approx 60$ \% of $F_{nat}$
-					\item S-wave: $F_{lim} \approx 40$ \% of $F_{nat}$
+					\item P-wave: $F_{lim} \approx 40$ \% of $F_{nat}$
+					\item S-wave: $F_{lim} \approx 60$ \% of $F_{nat}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -939,7 +960,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 25 mm}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 25 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -960,7 +981,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 50 mm}\label{app:air50}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 50 mm}\label{app:air50}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -977,8 +998,8 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: $F_{lim} \approx 60$ \% of $F_{nat}$
-					\item S-wave: $F_{lim} \approx 50$ \% of $F_{nat}$
+					\item P-wave: $F_{lim} \approx 50$ \% of $F_{nat}$
+					\item S-wave: $F_{lim} \approx 60$ \% of $F_{nat}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -986,7 +1007,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 50 mm}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 50 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1007,7 +1028,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 70 mm}\label{app:air70}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 70 mm}\label{app:air70}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1024,8 +1045,8 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: $F_{lim} \approx 65$ \% of $F_{nat}$
-					\item S-wave: $F_{lim} \approx 40$ \% of $F_{nat}$
+					\item P-wave: $F_{lim} \approx 40$ \% of $F_{nat}$
+					\item S-wave: $F_{lim} \approx 65$ \% of $F_{nat}$
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -1033,7 +1054,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference tests, air, D = 70 mm}
+		\frametitle{Appendix \textendash{} Reference tests, air, D = 70 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1054,7 +1075,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 25 mm}\label{app:water25}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 25 mm}\label{app:water25}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1080,7 +1101,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 25 mm}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 25 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1097,7 +1118,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave, PSD: additional side lobe at $F \approx 1500$ kHz
+					\item P-wave PSD: additional side lobes at $F_{nat}$ and $3 \, F_{nat}$, $F_{lim}$ is too high
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -1105,7 +1126,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 50 mm}\label{app:water50}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 50 mm}\label{app:water50}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1122,7 +1143,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: $F_{lim} \approx 100$ \% of $F_{nat}$
+					\item P-wave: $F_{lim} \approx 110$ \% of $F_{nat}$
 					\item S-wave: $F_{lim} \approx 75$ \% of $F_{nat}$
 				\end{itemize}
 			\end{RIPcolright}
@@ -1131,7 +1152,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 50 mm}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 50 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1148,7 +1169,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave, PSD: additional side lobes at $F \approx 500$ kHz and $F \approx 1500$ kHz
+					\item P-wave PSD: additional side lobes at $F_{nat}$ and $3 \, F_{nat}$, $F_{lim}$ is too high
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
@@ -1156,7 +1177,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 70 mm}\label{app:water70}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 70 mm}\label{app:water70}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1173,7 +1194,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave: $F_{lim} \approx 130$ \% of $F_{nat}$
+					\item P-wave: $F_{lim} \approx 112$ \% of $F_{nat}$
 					\item S-wave: $F_{lim} \approx 75$ \% of $F_{nat}$
 				\end{itemize}
 			\end{RIPcolright}
@@ -1182,7 +1203,7 @@
 	%
 	%-------------------------------------------------------------------------------------------------------------------
 	\begin{frame}
-		\frametitle{Appendix - Reference test, water, D = 70 mm}
+		\frametitle{Appendix \textendash{} Reference test, water, D = 70 mm}
 		% place graphs and images in the left column
 		% comment on results in the right column
 		\begin{columns}[t]
@@ -1199,7 +1220,7 @@
 				\end{itemize}
 				\textbf{Observations:} \\
 				\begin{itemize}
-					\item P-wave, PSD: additional side lobe at $F \approx 560$ kHz
+					\item P-wave PSD: additional side lobe at $F_{nat}$, $F_{lim}$ is too high
 				\end{itemize}
 			\end{RIPcolright}
 		\end{columns}
