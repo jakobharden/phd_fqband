@@ -1,4 +1,7 @@
-# Frequency band estimation for sinusoidal low-pass signals in noise
+# Automated frequency band estimation for sinusoidal low-pass signals in noise
+
+A numerical study on synthetic and natural signals
+
 
 ## Abstract
 
@@ -110,7 +113,7 @@ fqband/
 
 ## Usage instructions
 
-1. Set dataset path variable *r_ds.dspath* in function file *dsdefs.m* to data directory. e.g. r_ds.dspath = '/home/acme/science/data';   
+1. Set dataset path variable *r_ds.dspath* in function file *dsdefs.m* to the data directory chosen before. e.g. r_ds.dspath = '/home/acme/science/data';   
 2. Open GNU Octave.   
 3. Initialize program.   
 4. Run script files.   
@@ -197,8 +200,10 @@ The referenced datasets are compiled from raw data using a dataset compilation t
 
 ## Revision and release history
 
-### 2024-11-30, version 1.0
+### 2024-12-22, version 1.0.0
 
-- published/released version 1.0, by Jakob Harden   
-- url: [Repository of Graz University of Technology](xxxxxxxx)   
-- doi: xxxxxxxxx   
+- published/released version 1.0.0, by Jakob Harden   
+- url: [Repository of Graz University of Technology](https://repository.tugraz.at/)   
+- presentation, doi: [10.3217/8gbb3-r8q97](https://doi.org/10.3217/8gbb3-r8q97)   
+- GNU Octave code, doi: [10.3217/bry0f-cb052](https://doi.org/10.3217/bry0f-cb052)   
+- LaTeX code, doi: [10.3217/zm80p-90g35](https://doi.org/10.3217/zm80p-90g35)   

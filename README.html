@@ -1,4 +1,6 @@
-<h1>Frequency band estimation for sinusoidal low-pass signals in noise</h1>
+<h1>Automated frequency band estimation for sinusoidal low-pass signals in noise</h1>
+
+<p>A numerical study on synthetic and natural signals</p>
 
 <h2>Abstract</h2>
 
@@ -116,13 +118,13 @@ fqband/ <br />
 <li>Download datasets (see references below) and move them to a directory of your choice. e.g. <strong>/home/acme/science/data</strong></li>
 <li>Copy the program directory <strong>fqband</strong> to a location of your choice. e.g. <strong>/home/acme/science/fqband</strong>.   </li>
 <li>Open GNU Octave.   </li>
-<li>Make the program directory the working directory. e.g. <strong>/home/acme/science/fqband</strong>.   </li>
+<li>Make the program directory <strong>/home/acme/science/fqband</strong> the working directory.   </li>
 </ol>
 
 <h2>Usage instructions</h2>
 
 <ol>
-<li>Set dataset path variable <em>r_ds.dspath</em> in function file <em>dsdefs.m</em> to data directory. e.g. r_ds.dspath = '/home/acme/science/data';   </li>
+<li>Set dataset path variable <em>r_ds.dspath</em> in function file <em>dsdefs.m</em> to the data directory chosen before. e.g. r_ds.dspath = '/home/acme/science/data';   </li>
 <li>Open GNU Octave.   </li>
 <li>Initialize program.   </li>
 <li>Run script files.   </li>
@@ -130,7 +132,7 @@ fqband/ <br />
 
 <h3>Initialize program (command line interface)</h3>
 
-<p>The <em>init</em> command initializes the program. The initialization must be run once before executing all the other functions. The command is adding the subdirectories included in the main program directory to the 'path' environment variable. Furthermore, <em>init</em> is loading additional GNU Octave packages require for the program execution.</p>
+<p>The <em>init</em> command initializes the program. The initialization must be run once before executing all the other functions. The command is adding the subdirectories included in the main program directory to the 'path' environment variable. Furthermore, <em>init</em> is loading additional GNU Octave packages required for the program execution.</p>
 
 <p><code>
     octave: &gt;&gt; init;
@@ -148,7 +150,7 @@ fqband/ <br />
 
 <blockquote>
   <p>[!NOTE]
-To reproduce all analysis results shown in the presentation in <strong>fqband/latex/test_fqband</strong>, run the the first four commands from above.</p>
+To reproduce all analysis results shown in the presentation in <strong>fqband/latex/test_fqband</strong>, run the first four commands from above.</p>
 </blockquote>
 
 <h2>Help and Documentation</h2>
@@ -217,10 +219,12 @@ To reproduce all analysis results shown in the presentation in <strong>fqband/la
 
 <h2>Revision and release history</h2>
 
-<h3>2024-11-30, version 1.0</h3>
+<h3>2024-12-22, version 1.0.0</h3>
 
 <ul>
-<li>published/released version 1.0, by Jakob Harden   </li>
-<li>url: <a href="xxxxxxxx">Repository of Graz University of Technology</a>   </li>
-<li>doi: xxxxxxxxx   </li>
+<li>published/released version 1.0.0, by Jakob Harden   </li>
+<li>url: <a href="https://repository.tugraz.at/">Repository of Graz University of Technology</a>   </li>
+<li>presentation, doi: <a href="https://doi.org/10.3217/8gbb3-r8q97">10.3217/8gbb3-r8q97</a>   </li>
+<li>GNU Octave code, doi: <a href="https://doi.org/10.3217/bry0f-cb052">10.3217/bry0f-cb052</a>   </li>
+<li>LaTeX code, doi: <a href="https://doi.org/10.3217/zm80p-90g35">10.3217/zm80p-90g35</a>   </li>
 </ul>
