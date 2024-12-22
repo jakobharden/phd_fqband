@@ -78,12 +78,11 @@ function [r_ff, r_dft, r_as, r_ps, r_lsd, r_psd, r_enbw] = tool_est_dft(p_xx, p_
     zz = zeros(p_zp, Nsig);
     p_xx = [p_xx; zz];
     Nfft = Nsmp + p_zp;
-    enbw = Nfft / Nsmp;
   else
     ## no zero padding
     Nfft = Nsmp;
-    enbw = Nfft / Nsmp;
   endif
+  enbw = Nfft / Nsmp;
   
   ## frequency array, bilateral
   ff2 = [-(ceil((Nfft - 1) / 2) : -1 : 1), 0, (1 : floor((Nfft - 1) / 2))] * (p_fs / Nfft);

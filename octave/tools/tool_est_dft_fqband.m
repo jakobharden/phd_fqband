@@ -1,23 +1,26 @@
-## Estimate frequency band of sinusoidal low-pass signals (Welch method)
+## Estimate upper frequency band limit of a sinusoidal low-pass signal
 ##
-## Usage: [r_fb, r_ff, r_pp, r_cc, r_pw] = tool_est_dft_fqband(p_xx, p_fs, p_zp, p_tp, p_tf)
+## Usage: [r_fb, r_ff, r_pp, r_cc, r_pw, r_tf] = tool_est_dft_fqband(p_xx, p_fs, p_zp, p_tp, p_tf)
 ##
 ## p_xx ... signal amplitude matrix, each column represents one signal, [[<dbl>]]
 ## p_fs ... sampling rate, Hz, <dbl>
 ## p_zp ... zero-padding factor, multiple of signal length, optional, default = 0 (no zero-padding), <dbl>
-## p_tp ... signal power threshold factor, multiple of estimate signal power, 0 <= p_tp <= 0.99, optional, default = 0.90, [<dbl>]
+## p_tp ... signal power threshold factor, multiple of estimate signal power, 0 <= p_tp <= 0.99, optional, default = 0.90, <dbl>
 ## p_tf ... noise measurement range factor, multiple of number of frequency bins, 0.5 <= p_tf <= 0.9, optional, default = 0.75, <dbl>
 ## r_fb ... return: frequency band limits w.r.t. the sampling frequency p_pw.Fs, [<dbl>]
 ## r_ff ... return: frequency array (frequency bins), [<dbl>]
 ## r_pp ... return: power spectral density matrix, each column represents the periodogram of one signal, [[<dbl>]]
 ## r_cc ... return: normalized cumulative sum matrix, each column represents the cumulative sum of one periodogram, [[<dbl>]]
 ## r_pw ... return: estimate signal power matrix [Px, Pv, Ps, SNR], each row represents the power estimates of one signal, [[<dbl>]]
+## r_tf ... return: adjusted noise measurement range factor, <dbl>
 ##
 ## Algorithm:
-##   step 1: estimate power spectrum (PS)
+##   step 1: estimate power spectral density (PSD)
 ##   step 2: estimate signal power and frequency band
-##     step 2.1: estimate signal power
-##     step 2.2: estimate frequency band limit by threshold detection
+##     step 2.1: estimate signal power and SNR
+##     step 2.2: compute cumulative sum of the PSD
+##     step 2.3: determine detection threshold from signal power and power threshold factor
+##     step 2.4: estimate frequency band limit by threshold detection using the PSD's cumulative sum (linear interpolation)
 ##
 ## Note: Signals with an odd number of samples are truncated by one sample.
 ##
@@ -112,7 +115,7 @@ function [r_fb, r_ff, r_pp, r_cc, r_pw, r_tf] = tool_est_dft_fqband(p_xx, p_fs, 
   ## number of signals, number of samples
   [Nsmp, Nsig] = size(p_xx);
   
-  ## step 1: estimate power spectrum (DFT), unilateral
+  ## step 1: estimate power spectral density, unilateral
   zp = floor(p_zp * Nsmp); # zero padding amount, number of samples
   [r_ff, ~, ~, ~, ~, r_pp, enbw] = tool_est_dft(p_xx, p_fs, zp, 'unilateral');
   Nbin = numel(r_ff);
@@ -123,37 +126,43 @@ function [r_fb, r_ff, r_pp, r_cc, r_pw, r_tf] = tool_est_dft_fqband(p_xx, p_fs, 
   r_cc = zeros(Nbin, Nsig); # cumulative sum matrix
   r_pw = zeros(Nsig, 4); # power estimate matrix
   r_fb = zeros(Nsig, numel(p_tp)); # frequency band limit matrix
-  r_tf = ones(Nsig, 1) * p_tf; # frequency thershold factor array
+  r_tf = ones(Nsig, 1) * p_tf; # noise measurement range factor array
   for j = 1 : Nsig
-    ## step 2.1: estimate signal power
+    ## step 2.1: estimate signal power and SNR
     Px = sum(r_pp(:, j)); # power of signal in noise
     Pv = sum(r_pp(Lsig + 1 : end, j)) * Nbin / Lvm; # noise power
     Ps = Px - Pv; # signal power
     SNR = 10 * log10(Ps / Pv); # signal-to-noise ratio
     r_pw(j, 1 : 4) = [Px, Pv, Ps, SNR]; # save power estimates
-    ## step 2.2: estimate frequency band limit by threshold detection
+    ## step 2.2: compute cumulative sum of the PSD
     r_cc(:, j) = cumsum(r_pp(:, j)); # cumulative sum of the PSD
+    ## step 2.3: determine detection threshold from signal power and power threshold factor
+    tv_det = Ps * p_tp;
+    ## step 2.4: estimate frequency band limit by threshold detection using the PSD's cumulative sum
     [~, idxu] = unique(r_cc(:, j), "stable"); # find unique values, necessary for subsequent interpolation
     intp_x = r_cc(:, j)(idxu); # interpolation supports
     intp_y = r_ff(idxu); # interpolation support magnitudes
-    fb = interp1(intp_x, intp_y, Ps * p_tp, 'linear'); # interpolate frequency band thresholds
+    fb = interp1(intp_x, intp_y, tv_det, 'linear'); # interpolate frequency band thresholds
     r_fb(j, :) = fb;
-    ## adjust frequency threshold factor
+    ## adjust noise measurement range factor
     idx_fb = find(r_ff >= fb(end), 1, 'first');
     if not(isempty(idx_fb))
-      ## step 2.1: repeat, estimate signal power
+      ## step 2.1: update signal power and SNR estimates
       Lsig1 = min([idx_fb * 2, ceil(0.5 * Nbin)]); # update signal section length
       if (Lsig1 == Lsig)
+        ## signal section length did not change, continue with next signal
         continue;
       endif
-      Lvm1 = Nbin - Lsig1; # update noise measurement range length
-      r_tf(j) = Lvm1 / Nbin; # update frequency threshold factor
-      Pv1 = sum(r_pp(Lsig1 + 1 : end, j)) * Nbin / Lvm1; # update noise power
-      Ps1 = Px - Pv1; # update signal power
-      SNR1 = 10 * log10(Ps1 / Pv1); # update signal-to-noise ratio
-      r_pw(j, 1 : 4) = [Px, Pv1, Ps1, SNR1]; # save updated power estimates
-      ## step 2.2: repeat, estimate frequency band limit by threshold detection
-      fb = interp1(intp_x, intp_y, Ps1 * p_tp, 'linear'); # interpolate frequency band thresholds
+      Lvm1 = Nbin - Lsig1; # update, noise measurement range length
+      r_tf(j) = Lvm1 / Nbin; # update, noise measurement range factor
+      Pv1 = sum(r_pp(Lsig1 + 1 : end, j)) * Nbin / Lvm1; # update, noise power
+      Ps1 = Px - Pv1; # update, signal power
+      SNR1 = 10 * log10(Ps1 / Pv1); # update, signal-to-noise ratio
+      r_pw(j, 1 : 4) = [Px, Pv1, Ps1, SNR1]; # save updated power and SNR estimates
+      ## step 2.3: update, determine detection threshold from signal power and power threshold factor
+      tv_det = Ps1 * p_tp;
+      ## step 2.4: update, estimate frequency band limit by threshold detection using the PSD's cumulative sum
+      fb = interp1(intp_x, intp_y, tv_det, 'linear'); # interpolate frequency band thresholds
       r_fb(j, :) = fb;
     endif
   endfor

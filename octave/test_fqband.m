@@ -38,10 +38,10 @@ function [r_ds] = test_fqband(p_rm)
   ## natural signals
   sig_sid1 = [1, 24, 48, 72, 96, 144, 288]; # signal id's, selection 1
   sig_sid2 = [7, 74]; # signal id's, selection 2
-  sig_sid3 = [5]; # signal id's, selection 2
+  sig_sid3 = [5]; # signal id's, selection 3
   aps.nat_FS = 1e7; # sampling frequency, 10 MHz
   aps.nat_FR = [500000, 110000]; # sensor resonance frequency, natural frequency, 500 kHz, 110 kHz
-  aps.nat_ZPF = 3; # zero-padding factor, multiple of number of signal samples points
+  aps.nat_ZPF = 3; # zero-padding factor, multiple of number of signal samples
   aps.nat_TPF = [0.05, 0.93]; # power threshold factors, used to estimate frequency band limits
   aps.nat_TFF = 0.9; # frequency threshold factor, used to determine the noise measurement range
   aps.nat_ers = 100; # electromagnetic response section length (disturbance caused by pulse excitation)
@@ -131,7 +131,7 @@ function [r_ds] = test_fqband(p_rm)
         endfor
       endfor
     case 'pow'
-      ## compare power estimates of time and frequency domain
+      ## compare power estimates, time and frequency domain
       test_fqband_pow();
   endswitch
   
@@ -167,12 +167,12 @@ function test_fqband_sig(p_ps, p_aps, p_vm)
   ## generate signal
   Ns = p_aps.FS * p_aps.Ncy; # signal length
   ss = zeros(Ns, 1);
-  nn0 = linspace(0, 2 * pi, Ns); # angular frequency
+  ww0 = linspace(0, 2 * pi, Ns); # angular frequency
   for j = p_aps.FB
-    ss_j = transpose(p_aps.A0 * sin(nn0 * j));
+    ss_j = transpose(p_aps.A0 * sin(ww0 * j));
     ss = ss .+ ss_j;
   endfor
-  ee = transpose(exp(-p_aps.DF * nn0 / (2 * pi))); # exponential decay
+  ee = transpose(exp(-p_aps.DF * ww0 / (2 * pi))); # exponential decay
   ss = ss .* ee; # signal with exponential decay
   si = sprintf('Low-pass, A_0 = %.1f V, F = [%d, %d, %d, %d, %d] Hz, DF = %d, SNR = %d dB', p_aps.A0, p_aps.FB, p_aps.DF, p_aps.SNR);
   

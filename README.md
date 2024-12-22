@@ -105,7 +105,7 @@ fqband/
 1. Download datasets (see references below) and move them to a directory of your choice. e.g. **/home/acme/science/data**
 2. Copy the program directory **fqband** to a location of your choice. e.g. **/home/acme/science/fqband**.   
 3. Open GNU Octave.   
-4. Make the program directory the working directory. e.g. **/home/acme/science/fqband**.   
+4. Make the program directory **/home/acme/science/fqband** the working directory.   
 
 
 ## Usage instructions
@@ -118,7 +118,7 @@ fqband/
 
 ### Initialize program (command line interface)
 
-The *init* command initializes the program. The initialization must be run once before executing all the other functions. The command is adding the subdirectories included in the main program directory to the 'path' environment variable. Furthermore, *init* is loading additional GNU Octave packages require for the program execution.
+The *init* command initializes the program. The initialization must be run once before executing all the other functions. The command is adding the subdirectories included in the main program directory to the 'path' environment variable. Furthermore, *init* is loading additional GNU Octave packages required for the program execution.
 
 ```
     octave: >> init;   
@@ -136,7 +136,7 @@ The *init* command initializes the program. The initialization must be run once 
 ```
 
 > [!NOTE]
-> To reproduce all analysis results shown in the presentation in **fqband/latex/test_fqband**, run the the first four commands from above.
+> To reproduce all analysis results shown in the presentation in **fqband/latex/test\_fqband**, run the first four commands from above.
 
 
 ## Help and Documentation
